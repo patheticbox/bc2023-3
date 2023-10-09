@@ -9,23 +9,24 @@ fs.readFile("data.json", (err, data) => {
     } else {
         try {
 
-            // фільтрування даних, BS3_BanksLiab
+            // фільтрування даних BS3_BanksLiab
             const jsonData = JSON.parse(data);
-            const filtered = jsonData.filter(item => item.ku == BS3_BanksLiab);
+            const filtered = jsonData.filter(item => item.parent == "BS3_BanksLiab");
             const forfile = filtered.map(item => item.value.toString());
 
-            // вивід шуканих значень у консоль
-            filtered.forEach(item => {
-                console.log(item.value);
-            });
-
-            // запис шуканих значень у файл output.txt
-            fs.writeFile("output.txt", forfile.join('\n'), (err) => {
+            const outputText = filtered.map(item => `${item.txten}:${item.value}`).join('\n');
+            
+            console.log(outputText);
+            
+            fs.writeFile("output.txt", outputText, (err) => {
                 if (err)
                 {
                     console.error(err);
                     return;
                 }
+                filtered.forEach(item => {
+
+                })
             });
 
         } catch (error) {
